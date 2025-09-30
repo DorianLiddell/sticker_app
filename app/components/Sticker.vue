@@ -1,64 +1,34 @@
 <template>
-  <div class="sticker-container">
-    <div class="sticker" @mouseover="expand" @mouseleave="collapse">
-      <img :src="imageUrl" alt="Cat Sticker" class="sticker-img" />
-    </div>
+  <div class="sticker">
+    <img src="https://cataas.com/cat" alt="Sticker Cat" />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-
-export default defineComponent({
-  name: 'Sticker',
-  setup() {
-    const imageUrl = ref('/images/cat1.jpg'); 
-    const isExpanded = ref(false);
-
-    const expand = () => {
-      isExpanded.value = true;
-    };
-
-    const collapse = () => {
-      isExpanded.value = false;
-    };
-
-    return { imageUrl, expand, collapse };
-  },
-});
-</script>
+<script setup lang="ts"></script>
 
 <style scoped lang="scss">
-.sticker-container {
+
+.sticker {
   position: fixed;
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 1000;
-}
-
-.sticker {
   width: 50px;
   height: 50px;
-  overflow: hidden;
-  transition: width 0.3s ease, height 0.3s ease;
+  transition: all 0.3s ease-in-out;
 
-  &.expanded {
-    width: 100px;
-    height: 100px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   }
 
   &:hover {
-    &.expanded {
-      width: 100px;
-      height: 100px;
-    }
+    width:  50px;
+    height:  50px;
+    transform: translateY(-50%) scale(1.1);
   }
-}
-
-.sticker-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 </style>

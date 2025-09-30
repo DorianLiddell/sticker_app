@@ -1,67 +1,74 @@
 <template>
-  <div class="container">
+  <div class="sticker-page">
     <div class="content">
-      <p v-for="i in 20" :key="i">Это длинный контент для скроллинга. Пункт {{ i }}.</p>
-      <img v-for="(image, index) in catImages" :key="index" :src="image.url" alt="Cat" class="cat-image" />
+      <div v-for="cat in cats" :key="cat.id" class="cat-card">
+        <img :src="cat.url" alt="Cat image" />
+      </div>
     </div>
     <Sticker />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import Sticker from '~/components/Sticker.vue';
-import axios from 'axios';
+<script setup lang="ts">
+import { ref } from 'vue';
+import type { Cat } from '~/types/index';
 
-export default defineComponent({
-  name: 'StickerPage',
-  components: { Sticker },
-  setup() {
-    const catImages = ref<Array<{ url: string }>>([]);
-
-    const fetchCatImage = async (index: number) => {
-      try {
-        const response = await axios.get('https://cataas.com/cat', { responseType: 'blob' });
-        const url = URL.createObjectURL(response.data);
-        catImages.value[index] = { url };
-      } catch (error) {
-        console.error('Error fetching cat image:', error);
-      }
-    };
-
-    onMounted(async () => {
-      for (let i = 0; i < 3; i++) {
-        catImages.value.push({ url: '' });
-        await fetchCatImage(i);
-      }
-    });
-
-    return { catImages };
-  },
+definePageMeta({
+  layout: 'default',
 });
+
+const cats = ref<Cat[]>([]);
+
+const fetchCats = async () => {
+  try {
+    const response1 = await $fetch('https://cataas.com/cat', { responseType: 'blob' }) as Blob;
+    const response2 = await $fetch('https://cataas.com/cat', { responseType: 'blob' }) as Blob;
+    const response3 = await $fetch('https://cataas.com/cat', { responseType: 'blob' }) as Blob;
+
+    cats.value = [
+      { id: 1, url: URL.createObjectURL(response1) },
+      { id: 2, url: URL.createObjectURL(response2) },
+      { id: 3, url: URL.createObjectURL(response3) },
+    ];
+  } catch (error) {
+    console.error('Ошибка при загрузке', error);
+  }
+};
+
+fetchCats();
 </script>
 
 <style scoped lang="scss">
-.container {
-  min-height: 100vh;
+.sticker-page {
   padding: 20px;
-}
+  max-width: 1200px;
+  margin: 0 auto;
 
-.content {
-  height: 800px; 
-  overflow-y: auto;
-  margin-bottom: 20px;
-}
+  .content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
 
-.cat-image {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  margin: 10px 0;
-}
+    .cat-card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
 
-p {
-  margin: 10px 0;
-  line-height: 1.5;
+      img {
+        max-width: 100%;
+        border-radius: 10px;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      p {
+        margin-top: 10px;
+        font-size: 1.2rem;
+        color: #333;
+      }
+    }
+  }
 }
 </style>

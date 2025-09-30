@@ -1,8 +1,4 @@
-interface CatImage {
+export interface Cat {
+  id: number;
   url: string;
-  id: string;
-}
-
-interface ApiResponse {
-  data: CatImage;
 }
