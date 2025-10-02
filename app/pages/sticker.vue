@@ -9,7 +9,7 @@
     <section class="cards">
       <div class="card" v-for="item in 8" :key="item">
         <h2>Карточка {{ item }}</h2>
-        <p>Это пример карточки с текстом. Здесь может быть описание или любая другая информация.</p>
+        <p>Это пример карточки с текстом.</p>
         <button>Подробнее</button>
       </div>
     </section>
@@ -36,7 +36,18 @@ definePageMeta({
 </script>
 
 <style scoped lang="scss">
+
+@font-face {
+  font-family: 'Exo 2';
+  src: url('~/assets/fonts/Exo2-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
 .container {
+  font-family: 'Exo 2';
+  font-weight: 400;
+  font-style: normal;
   text-align: center;
   padding: 50px 20px;
   display: flex;
@@ -50,13 +61,13 @@ a {
   padding: 10px 20px;
   border-radius: 5px;
   text-decoration: none;
-  background-color: #007bff;
+  background-color: #3f3f3f;
   color: white;
   transition: background-color 0.3s;
   margin-bottom: 40px;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #bfc0c2;
   }
 }
 
@@ -105,13 +116,13 @@ a {
       padding: 10px 20px;
       border: none;
       border-radius: 5px;
-      background-color: #28a745;
+      background-color: #3f3f3f;
       color: white;
       cursor: pointer;
       transition: background-color 0.3s;
 
       &:hover {
-        background-color: #218838;
+        background-color: #bfc0c2;
       }
     }
   }
